@@ -1,0 +1,13 @@
+{
+    "name": "ibnujakaria/file-manager",
+    "description": "A simple laravel file manager",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ibnu Jakaria",
+            "email": "ibnujakaria@outlook.com"
+        }
+    ],
+    "require": {}
+}
