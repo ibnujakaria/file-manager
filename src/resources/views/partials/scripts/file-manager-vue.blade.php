@@ -5,9 +5,8 @@
       el: '#file-manager-app',
       data: {
         path: '',
-        directories: [],
-        files: [],
-        selectedFiles: [],
+        directoriesAndFiles: [],
+        selectedItems: [],
         form: {
           directory: {name: null}
         }
@@ -16,11 +15,19 @@
         console.log('mounted!')
         this.getAllFilesAndDirectory()
       },
+      computed: {
+        latestSelectedItem () {
+          if (this.selectedItems.length - 1) {
+            return {path: null}
+          }
+
+          return this.selectedItems[this.selectedItems.length - 1]
+        }
+      },
       methods: {
         getAllFilesAndDirectory () {
           this.$http.get('list-all-files', {params: {path: this.path}}).then(response => {
-            this.directories = response.body.directories
-            this.files = response.body.files
+            this.directoriesAndFiles = response.body.directoriesAndFiles
           }, response => {
             alert('Error occured :(')
           })
@@ -34,6 +41,7 @@
           }
 
           this.getAllFilesAndDirectory()
+          this.selectedItems = []
         },
         openDirectoryByIndex (index) {
           console.log('openDirectoryByIndex: ' + index)
@@ -51,8 +59,20 @@
 
           this.getAllFilesAndDirectory()
         },
-        selectFile (file) {
-          console.log('selectFile: ' + file)
+        selectItem (item) {
+          console.log('selectItem() called with ' + JSON.stringify(item))
+          console.log('selectedItems before is: ' + JSON.stringify(this.selectedItems))
+          if (item.path !== this.latestSelectedItem.path) {
+            this.selectedItems = []
+            this.selectedItems.push(item)
+            console.log('select ' + item)
+            return
+          }
+
+          if (item.type === 'directory') {
+            console.log('open ' + item)
+            this.openDirectory(item.path)
+          }
         },
         newDirectory () {
           let name = this.path + '/' + this.form.directory.name
@@ -64,11 +84,53 @@
             alert('Error occured :(')
           })
         },
+        rename () {
+          alert('Rename ' + JSON.stringify(this.selectedItems))
+        },
+        remove () {
+          let directoriesToRemove = []
+          let filesToRemove = []
+
+          for (let directory of this.selectedItems.filter(item => item.type === 'directory')) {
+            directoriesToRemove.push(directory.path)
+          }
+
+          for (let file of this.selectedItems.filter(item => item.type === 'file')) {
+            filesToRemove.push(file.path)
+          }
+
+          this.$http.delete('delete-directories', {params: {directories: directoriesToRemove}}).then(response => {
+            this.$http.delete('delete-files', {params: {files: filesToRemove}}).then(response => {
+              this.getAllFilesAndDirectory()
+              this.closeModal('modal-remove-file')
+            }, response => {
+              alert('error occured :(')
+              this.closeModal('modal-remove-file')
+            })
+          }, response => {
+            alert('error occured :(')
+            this.closeModal('modal-remove-file')
+          })
+        },
         openModal (id) {
           $('#' + id).modal('show')
         },
         closeModal (id) {
           $('#' + id).modal('hide')
+        },
+        getClassItem (item) {
+          let className = item.type === 'directory' ? 'fa-folder' : 'fa-file'
+          let classes = {}
+
+          classes.fa = true
+          classes[className] = true
+
+          return classes
+        },
+        isSelected (item) {
+          return {
+            'table-primary': this.selectedItems.find(selected => selected.path === item.path)
+          }
         }
       }
     })

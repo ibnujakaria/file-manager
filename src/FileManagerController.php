@@ -26,6 +26,7 @@ class FileManagerController extends Controller
                 'name' => last(explode("/", $directory)),
                 'path' => $directory,
                 'size' => \Storage::size($directory),
+                'type' => 'directory',
                 'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($directory))->diffForHumans()
             ];
         }
@@ -35,11 +36,14 @@ class FileManagerController extends Controller
                 'name' => last(explode("/", $file)),
                 'path' => $file,
                 'size' => \Storage::size($file),
+                'type' => 'file',
                 'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($file))->diffForHumans()
             ];
         }
 
-        return compact('directories', 'files');
+        return [
+            'directoriesAndFiles' => array_merge($directories, $files)
+        ];
     }
 
     public function addDirectory(Request $request)
@@ -47,5 +51,23 @@ class FileManagerController extends Controller
         return json_encode([
             'result' => \Storage::makeDirectory($request->name)
         ]);
+    }
+
+    public function deleteDirectories(Request $request)
+    {
+        foreach ($request->input('directories', []) as $key => $directory) {
+            \Storage::deleteDirectory($directory);
+        }
+
+        return json_encode(['result' => true]);
+    }
+
+    public function deleteFiles(Request $request)
+    {
+        foreach ($request->input('files', []) as $key => $file) {
+            \Storage::delete($file);
+        }
+
+        return json_encode(['result' => true]);
     }
 }
