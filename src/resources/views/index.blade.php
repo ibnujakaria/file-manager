@@ -33,7 +33,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 100%">
               <a class="dropdown-item" href="#" @click="openModal('modal-new-folder')"><i style="width: 20px" class="fa fa-folder"></i> Folder</a>
-              <a class="dropdown-item" href="#"><i style="width: 20px" class="fa fa-upload"></i> File Upload</a>
+              <a class="dropdown-item" href="#" @click="browseFile()"><i style="width: 20px" class="fa fa-upload"></i> File Upload</a>
             </div>
           </div>
           <div class="btn-group" v-if="selectedItems.length">
@@ -70,6 +70,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div>
+      <input @change="uploadFile" id="input-file" type="file" name="upload" style="display: none;">
     </div>
     @include('file-manager::partials.modals.new-folder')
     @include('file-manager::partials.modals.remove-file')

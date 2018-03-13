@@ -53,6 +53,19 @@ class FileManagerController extends Controller
         ]);
     }
 
+    public function uploadFiles(Request $request)
+    {   
+        $path = $request->path ? $request->path : '';
+
+        foreach ($request->file('files') as $key => $file) {
+            $file->storeAs($path, $file->getClientOriginalName());
+        }
+
+        return response()->json([
+            'result' => true
+        ]);
+    }
+
     public function deleteDirectories(Request $request)
     {
         foreach ($request->input('directories', []) as $key => $directory) {

@@ -9,7 +9,8 @@
         selectedItems: [],
         loading: false,
         form: {
-          directory: {name: null}
+          directory: {name: null},
+          upload: null
         }
       },
       mounted () {
@@ -117,6 +118,23 @@
             this.closeModal('modal-remove-file')
           })
         },
+        browseFile () {
+          $('#input-file').click()
+        },
+        uploadFile () {
+          let payload = new FormData()
+          payload.append('files[]', document.getElementById('input-file').files[0])
+          payload.append('path', this.path)
+
+          this.loadingStart()
+          this.$http.post('upload-files', payload).then(response => {
+            console.log(response.body)
+            this.getAllFilesAndDirectory()
+          }, response => {
+            alert('error')
+            this.loadingStop()
+          })
+        },
         openModal (id) {
           $('#' + id).modal('show')
         },
@@ -139,6 +157,7 @@
         },
         loadingStart () {
           this.loading = true
+          this.directoriesAndFiles = []
         },
         loadingStop () {
           this.loading = false
