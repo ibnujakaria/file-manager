@@ -58,6 +58,16 @@
             <td>@{{item.last_modified}}</td>
             <td>@{{item.size || '-'}}</td>
           </tr>
+          <tr v-if="!directoriesAndFiles.length && !loading">
+            <td colspan="3" class="text-center">
+              Tidak ada apa pun.
+            </td>
+          </tr>
+          <tr v-else-if="loading">
+            <td colspan="3" class="text-center">
+              Loading...
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -7,6 +7,7 @@
         path: '',
         directoriesAndFiles: [],
         selectedItems: [],
+        loading: false,
         form: {
           directory: {name: null}
         }
@@ -26,9 +27,13 @@
       },
       methods: {
         getAllFilesAndDirectory () {
+          this.loadingStart()
+          this.directoriesAndFiles = []
           this.$http.get('list-all-files', {params: {path: this.path}}).then(response => {
             this.directoriesAndFiles = response.body.directoriesAndFiles
+            this.loadingStop()
           }, response => {
+            this.loadingStop()
             alert('Error occured :(')
           })
         },
@@ -131,6 +136,12 @@
           return {
             'table-primary': this.selectedItems.find(selected => selected.path === item.path)
           }
+        },
+        loadingStart () {
+          this.loading = true
+        },
+        loadingStop () {
+          this.loading = false
         }
       }
     })
