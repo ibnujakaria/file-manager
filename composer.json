@@ -17,5 +17,12 @@
         "psr-4": {
             "Ibnujakaria\\FileManager\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ibnujakaria\\FileManager\\FileManagerServiceProvider"
+            ]
+        }
     }
 }
