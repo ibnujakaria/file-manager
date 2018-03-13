@@ -9,5 +9,13 @@
             "email": "ibnujakaria@outlook.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^7.0",
+        "laravel/framework": "5.6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ibnujakaria\\FileManager\\": "src/"
+        }
+    }
 }
