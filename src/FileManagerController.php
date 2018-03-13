@@ -55,6 +55,9 @@ class FileManagerController extends Controller
 
     public function uploadFiles(Request $request)
     {   
+        $request->validate([
+            'files.*' => 'mimetypes:image/png,image/jpeg'
+        ]);
         $path = $request->path ? $request->path : '';
 
         foreach ($request->file('files') as $key => $file) {

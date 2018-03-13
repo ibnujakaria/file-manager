@@ -123,8 +123,11 @@
         },
         uploadFile () {
           let payload = new FormData()
-          payload.append('files[]', document.getElementById('input-file').files[0])
           payload.append('path', this.path)
+
+          for (let file of document.getElementById('input-file').files) {
+            payload.append('files[]', file)
+          }
 
           this.loadingStart()
           this.$http.post('upload-files', payload).then(response => {

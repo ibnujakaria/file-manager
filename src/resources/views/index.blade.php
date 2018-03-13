@@ -72,7 +72,7 @@
       </table>
     </div>
     <div>
-      <input @change="uploadFile" id="input-file" type="file" name="upload" style="display: none;">
+      <input @change="uploadFile" id="input-file" type="file" name="upload" style="display: none;" multiple="">
     </div>
     @include('file-manager::partials.modals.new-folder')
     @include('file-manager::partials.modals.remove-file')
