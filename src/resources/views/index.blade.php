@@ -44,32 +44,53 @@
       </div>
     </div>
     <div>
-      <table class="table table-hover">
-        <thead class="thead-dark">
-          <th>Name</th>
-          <th>Last Modified</th>
-          <th>Size</th>
-        </thead>
-        <tbody>
-          <tr v-for="item in directoriesAndFiles" @click="selectItem(item)" :class="isSelected(item)">
-            <td>
-              <i :class="getClassItem(item)" style="width: 20px"></i> @{{item.name}}
-            </td>
-            <td>@{{item.last_modified}}</td>
-            <td>@{{item.size || '-'}}</td>
-          </tr>
-          <tr v-if="!directoriesAndFiles.length && !loading">
-            <td colspan="3" class="text-center">
-              Tidak ada apa pun.
-            </td>
-          </tr>
-          <tr v-else-if="loading">
-            <td colspan="3" class="text-center">
-              Loading...
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="row">
+        <div :class="{'col-sm-8': showImage, 'col-sm-12': !showImage}">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <th>Name</th>
+              <th>Last Modified</th>
+              <th>Size</th>
+            </thead>
+            <tbody>
+              <tr v-for="item in directoriesAndFiles" @click="selectItem(item)" :class="isSelected(item)">
+                <td>
+                  <i :class="getClassItem(item)" style="width: 20px"></i> @{{item.name}}
+                </td>
+                <td>@{{item.last_modified}}</td>
+                <td>@{{item.size || '-'}}</td>
+              </tr>
+              <tr v-if="!directoriesAndFiles.length && !loading">
+                <td colspan="3" class="text-center">
+                  Tidak ada apa pun.
+                </td>
+              </tr>
+              <tr v-else-if="loading">
+                <td colspan="3" class="text-center">
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-4" v-if="showImage">
+          <table class="table">
+            <thead class="thead-dark">
+              <th>Detail</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="text" class="form-control" :value="latestSelectedItem.public_path">
+                  <div style="margin-top: 20px">
+                    <img :src="latestSelectedItem.public_path" width="50%">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <div>
       <input @change="uploadFile" id="input-file" type="file" name="upload" style="display: none;" multiple="">

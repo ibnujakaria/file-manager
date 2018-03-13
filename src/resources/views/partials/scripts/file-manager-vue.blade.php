@@ -24,6 +24,9 @@
           }
 
           return this.selectedItems[this.selectedItems.length - 1]
+        },
+        showImage () {
+          return this.latestSelectedItem.type === 'file' && this.selectedItems.length === 1
         }
       },
       methods: {

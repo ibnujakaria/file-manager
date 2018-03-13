@@ -25,6 +25,7 @@ class FileManagerController extends Controller
             $directories[] = [
                 'name' => last(explode("/", $directory)),
                 'path' => $directory,
+                'public_path' => "/storage/$directory",
                 'size' => \Storage::size($directory),
                 'type' => 'directory',
                 'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($directory))->diffForHumans()
@@ -35,6 +36,7 @@ class FileManagerController extends Controller
             $files[] = [
                 'name' => last(explode("/", $file)),
                 'path' => $file,
+                'public_path' => "/storage/$file",
                 'size' => \Storage::size($file),
                 'type' => 'file',
                 'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($file))->diffForHumans()
