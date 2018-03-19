@@ -13,7 +13,7 @@
 <body>
   <div class="container-fluid" id="file-manager-app" style="margin-top: 20px">
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -25,7 +25,7 @@
           </ol>
         </nav>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <div>
           <div class="dropdown" style="display: inline-block;">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 47px">
