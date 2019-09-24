@@ -1,6 +1,8 @@
 <script type="text/javascript">
   (() => {
-    Vue.http.options.root = '{{route('ibnujakaria.file-manager.index')}}'
+    Vue.http.options.root = '{{ route('ibnujakaria.file-manager.index') }}'
+    const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content')
+
     let app = new Vue({
       el: '#file-manager-app',
       data: {
@@ -9,7 +11,7 @@
         selectedItems: [],
         loading: false,
         form: {
-          directory: {name: null},
+          directory: { name: null },
           upload: null
         }
       },
@@ -85,7 +87,7 @@
         },
         newDirectory () {
           let name = this.path + '/' + this.form.directory.name
-          this.$http.post('add-directory', {name}).then(response => {
+          this.$http.post('add-directory', { name, _token: csrfToken }).then(response => {
             this.form.directory.name = null
             this.closeModal('modal-new-folder')
             this.getAllFilesAndDirectory()
@@ -108,8 +110,8 @@
             filesToRemove.push(file.path)
           }
 
-          this.$http.delete('delete-directories', {params: {directories: directoriesToRemove}}).then(response => {
-            this.$http.delete('delete-files', {params: {files: filesToRemove}}).then(response => {
+          this.$http.delete('delete-directories', { params: { directories: directoriesToRemove, _token: csrfToken } }).then(response => {
+            this.$http.delete('delete-files', { params: { files: filesToRemove, _token: csrfToken } }).then(response => {
               this.getAllFilesAndDirectory()
               this.closeModal('modal-remove-file')
             }, response => {
@@ -126,6 +128,7 @@
         },
         uploadFile () {
           let payload = new FormData()
+          payload.append('_token', csrfToken)
           payload.append('path', this.path)
 
           for (let file of document.getElementById('input-file').files) {

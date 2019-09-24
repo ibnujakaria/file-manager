@@ -9,6 +9,7 @@
       cursor: pointer;
     }
   </style>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
   <div class="container-fluid" id="file-manager-app" style="margin-top: 20px">

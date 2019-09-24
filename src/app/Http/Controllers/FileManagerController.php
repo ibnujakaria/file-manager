@@ -1,8 +1,9 @@
 <?php
 
-namespace Ibnujakaria\FileManager;
+namespace Ibnujakaria\FileManager\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Ibnujakaria\FileManager\Support\Facades\FileManager;
 use Illuminate\Http\Request;
 
 class FileManagerController extends Controller
@@ -10,6 +11,7 @@ class FileManagerController extends Controller
 
     public function index()
     {
+        FileManager::routes();
         return view('file-manager::index');
     }
     

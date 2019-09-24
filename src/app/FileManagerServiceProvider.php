@@ -3,6 +3,7 @@
 namespace Ibnujakaria\FileManager;
 
 use Illuminate\Support\ServiceProvider;
+use Ibnujakaria\FileManager\Http\Controllers\FileManagerController;
 
 class FileManagerServiceProvider extends ServiceProvider
 {
@@ -31,7 +32,9 @@ class FileManagerServiceProvider extends ServiceProvider
             __DIR__.'/../config/file-manager.php', 'file-manager'
         );
 
-        include __DIR__ . '/../routes/routes.php';
+        $this->app->bind('file-manager', function () {
+            return new FileManagerBase();
+        });
 
         $this->app->make(FileManagerController::class);
     }
