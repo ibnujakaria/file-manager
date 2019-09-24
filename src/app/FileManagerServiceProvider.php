@@ -19,6 +19,10 @@ class FileManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/file-manager.php' => config_path('file-manager.php'),
         ]);
+
+        $this->publishes([
+            __DIR__.'/../../public/file-manager.js' => public_path('file-manager/file-manager.js'),
+        ], 'public');
     }
 
     /**

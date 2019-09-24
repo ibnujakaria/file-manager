@@ -5,13 +5,28 @@ namespace Ibnujakaria\FileManager\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Ibnujakaria\FileManager\Support\Facades\FileManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
 
 class FileManagerController extends Controller
 {
 
+    public function __construct() {
+        $this->middleware(function ($request, $next)
+        {
+            setcookie(
+                'file-manager-base-url',
+                route('ibnujakaria.file-manager.index'),
+                time() + (60 * 5),
+                '/'
+            );
+
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        FileManager::routes();
         return view('file-manager::index');
     }
     
