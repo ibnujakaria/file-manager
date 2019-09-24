@@ -13,7 +13,11 @@ class FileManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'file-manager');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'file-manager');
+        
+        $this->publishes([
+            __DIR__.'/../config/file-manager.php' => config_path('file-manager.php'),
+        ]);
     }
 
     /**
@@ -23,7 +27,12 @@ class FileManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        include __DIR__ . '/routes.php';
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/file-manager.php', 'file-manager'
+        );
+
+        include __DIR__ . '/../routes/routes.php';
+
         $this->app->make(FileManagerController::class);
     }
 }
