@@ -137,7 +137,8 @@ const store = new Vuex.Store({
         if (filesToRemove.length) {
           await http.delete('delete-files', { params: { files: filesToRemove } })
         }
-  
+        
+        commit('SET_SELECTED_ITEMS', [])
         dispatch('getAllFilesAndDirectory')
       } catch (error) {
         throw error

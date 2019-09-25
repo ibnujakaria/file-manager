@@ -37,11 +37,13 @@ export default {
       let paths = this.splittedPath
       let newPaths = []
 
+
       for (let i = 0; i <= key; i++) {
         newPaths.push(paths[i])
       }
 
-      return newPaths.join('/')
+      console.log('getLink', paths, key, newPaths.join('/'))
+      return '/' + newPaths.join('/')
     }
   }
 }
