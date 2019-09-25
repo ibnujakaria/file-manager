@@ -2,11 +2,9 @@
 
 namespace Ibnujakaria\FileManager\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Ibnujakaria\FileManager\Support\Facades\FileManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Crypt;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class FileManagerController extends Controller
 {
@@ -32,8 +30,9 @@ class FileManagerController extends Controller
     
     public function listAllFiles(Request $request)
     {
-        $directoriesList = \Storage::directories($request->input('path', '/'));
-        $filesList = \Storage::files($request->input('path', '/'));
+        $path = $request->input('path', '');
+        $directoriesList = Storage::directories($path);
+        $filesList = Storage::files($path);
 
         $directories = [];
         $files = [];
@@ -42,10 +41,10 @@ class FileManagerController extends Controller
             $directories[] = [
                 'name' => last(explode("/", $directory)),
                 'path' => $directory,
-                'public_path' => "/storage/$directory",
-                'size' => \Storage::size($directory),
+                'public_path' => Storage::url($directory),
+                'size' => Storage::size($directory),
                 'type' => 'directory',
-                'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($directory))->diffForHumans()
+                'last_modified' => \Carbon\Carbon::createFromTimestamp(Storage::lastModified($directory))->diffForHumans()
             ];
         }
 
@@ -53,14 +52,15 @@ class FileManagerController extends Controller
             $files[] = [
                 'name' => last(explode("/", $file)),
                 'path' => $file,
-                'public_path' => "/storage/$file",
-                'size' => \Storage::size($file),
+                'public_path' => Storage::url($file),
+                'size' => Storage::size($file),
                 'type' => 'file',
-                'last_modified' => \Carbon\Carbon::createFromTimestamp(\Storage::lastModified($file))->diffForHumans()
+                'last_modified' => \Carbon\Carbon::createFromTimestamp(Storage::lastModified($file))->diffForHumans()
             ];
         }
 
         return [
+            'path' => $path,
             'directoriesAndFiles' => array_merge($directories, $files)
         ];
     }
@@ -68,7 +68,7 @@ class FileManagerController extends Controller
     public function addDirectory(Request $request)
     {
         return json_encode([
-            'result' => \Storage::makeDirectory($request->name)
+            'result' => Storage::makeDirectory($request->name)
         ]);
     }
 
@@ -91,7 +91,7 @@ class FileManagerController extends Controller
     public function deleteDirectories(Request $request)
     {
         foreach ($request->input('directories', []) as $key => $directory) {
-            \Storage::deleteDirectory($directory);
+            Storage::deleteDirectory($directory);
         }
 
         return json_encode(['result' => true]);
@@ -100,7 +100,7 @@ class FileManagerController extends Controller
     public function deleteFiles(Request $request)
     {
         foreach ($request->input('files', []) as $key => $file) {
-            \Storage::delete($file);
+            Storage::delete($file);
         }
 
         return json_encode(['result' => true]);
