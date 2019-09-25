@@ -5,8 +5,16 @@
         <i class="fa fa-plus"></i> New
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 100%">
-        <a class="dropdown-item" href="#" @click="openModal('modal-new-folder')"><i style="width: 20px" class="fa fa-folder"></i> Folder</a>
-        <a class="dropdown-item" href="#" @click="browseFile()"><i style="width: 20px" class="fa fa-upload"></i> File Upload</a>
+        <button 
+          class="dropdown-item" 
+          @click="openModal('modal-new-folder')">
+          <i style="width: 20px" class="fa fa-folder"></i> Folder
+        </button>
+        <button 
+          class="dropdown-item" 
+          @click="browseFile()">
+          <i style="width: 20px" class="fa fa-upload"></i> File Upload
+        </button>
       </div>
     </div>
     <div class="btn-group" v-if="selectedItems.length">

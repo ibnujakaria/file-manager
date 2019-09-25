@@ -22,7 +22,7 @@
               <tr 
                 v-for="(item, i) in directoriesAndFiles" 
                 @click="selectItem(item)" 
-                :class="isSelected(item)"
+                :class="isSelectedClasses(item)"
                 :key="`${path}-${i}`">
                 <td>
                   <i :class="getClassItem(item)" style="width: 20px"></i> {{item.name}}
@@ -96,14 +96,21 @@ export default {
   },
   mounted () {
     console.log('mounted!')
+    let path = this.$route.path
+    this.$store.commit('SET_PATH', path)
     this.$store.dispatch('getAllFilesAndDirectory')
   },
   methods: {
     ...mapActions([
-      'selectItem',
-      'openDirectory',
-      'openDirectoryByIndex'
+      'openDirectory'
     ]),
+    selectItem (item) {
+      if (this.isSelected(item) && item.type === 'directory') {
+        this.$router.push(`/${item.path}`)
+      } else {
+        this.$store.dispatch('selectItem', item)
+      }
+    },
     openModal (id) {
       this.$refs[id].show()
     },
@@ -117,9 +124,18 @@ export default {
       return classes
     },
     isSelected (item) {
+      return this.selectedItems.find(selected => selected.path === item.path)
+    },
+    isSelectedClasses (item) {
       return {
-        'table-primary': this.selectedItems.find(selected => selected.path === item.path)
+        'table-primary': this.isSelected(item)
       }
+    }
+  },
+  watch: {
+    '$route' () {
+      console.log('route changed', this.$route.path)
+      this.openDirectory(this.$route.path)
     }
   },
   components: { Breadcrumb, Controls, ModalNewFolder, ModalDelete }

@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
-
 // set axios root url
 const baseURL = Cookies.get('file-manager-base-url')
 const http = axios.create({
@@ -68,19 +67,6 @@ const store = new Vuex.Store({
       await dispatch('getAllFilesAndDirectory')
       commit('SET_SELECTED_ITEMS', [])
     },
-    openDirectoryByIndex ({ state, commit, dispatch }, index) {
-      console.log('openDirectoryByIndex: ' + index)
-
-      let paths = state.path.split('/')
-      let newPaths = []
-
-      for (let i = 0; i <= index; i++) {
-        newPaths.push(paths[i])
-      }
-
-      commit('SET_PATH', newPaths.join('/'))
-      dispatch('getAllFilesAndDirectory')
-    },
     selectItem ({ commit, getters, state, dispatch }, item) {
       console.log('selectItem() called with ' + JSON.stringify(item))
       console.log('selectedItems before is: ' + JSON.stringify(state.selectedItems))
@@ -143,7 +129,7 @@ const store = new Vuex.Store({
       }
 
       try {
-        commit('SET_LOADING', { key: 'deleting', value: false })
+        commit('SET_LOADING', { key: 'deleting', value: true })
         if (directoriesToRemove.length) {
           await http.delete('delete-directories', { params: { directories: directoriesToRemove } })
         }

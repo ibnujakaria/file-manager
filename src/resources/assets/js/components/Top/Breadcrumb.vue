@@ -2,10 +2,14 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="javascript:void(0)" @click="openDirectory('/')"><i class="fa fa-home"></i></a>
+        <router-link to="/"><i class="fa fa-home"></i></router-link>
       </li>
-      <li class="breadcrumb-item" v-for="(p, key) of path.split('/')" :key="key">
-        <a href="javascript:void(0)" @click="openDirectoryByIndex(key)">{{ p }}</a>
+      <li 
+        class="breadcrumb-item" 
+        :class="{ active: key === splittedPath.length - 1 }"
+        v-for="(path, key) of splittedPath" 
+        :key="key">
+        <router-link :to="getLink(key)">{{ path }}</router-link>
       </li>
     </ol>
   </nav>
@@ -18,13 +22,27 @@ export default {
   computed: {
     ...mapState([
       'path'
-    ])
+    ]),
+    splittedPath () {
+      let path = this.path
+      if (path[0] === '/') {
+        path = path.substr(1)
+      }
+
+      return path.split('/')
+    }
   },
   methods: {
-    ...mapActions([
-      'openDirectory',
-      'openDirectoryByIndex'
-    ])
+    getLink (key) {
+      let paths = this.splittedPath
+      let newPaths = []
+
+      for (let i = 0; i <= key; i++) {
+        newPaths.push(paths[i])
+      }
+
+      return newPaths.join('/')
+    }
   }
 }
 </script>
