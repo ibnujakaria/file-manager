@@ -22,7 +22,10 @@
         "laravel": {
             "providers": [
                 "Ibnujakaria\\FileManager\\FileManagerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "FileManager": "Ibnujakaria\\FileManager\\Support\\Facades\\FileManager"
+            }
         }
     }
 }
