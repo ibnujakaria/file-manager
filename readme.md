@@ -7,7 +7,7 @@ composer require ibnujakaria/file-manager
 ### Publish Configuration and Assets
 
 ```bash
-php artisan vendor:publish --provider=\Ibnujakaria\FileManager\FileManagerServiceProvider
+php artisan vendor:publish --provider="Ibnujakaria\FileManager\FileManagerServiceProvider"
 ```
 
 ### Define routing:
