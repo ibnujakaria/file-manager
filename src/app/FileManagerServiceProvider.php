@@ -4,6 +4,7 @@ namespace Ibnujakaria\FileManager;
 
 use Illuminate\Support\ServiceProvider;
 use Ibnujakaria\FileManager\Http\Controllers\FileManagerController;
+use Ibnujakaria\FileManager\Http\Middleware\FileManagerMiddleware;
 
 class FileManagerServiceProvider extends ServiceProvider
 {
@@ -23,8 +24,10 @@ class FileManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../public/file-manager.js' => public_path('file-manager/file-manager.js'),
         ], 'public');
+        
+        $this->app['router']->pushMiddlewareToGroup('web', FileManagerMiddleware::class);
     }
-
+    
     /**
      * Register services.
      *
@@ -35,11 +38,11 @@ class FileManagerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/file-manager.php', 'file-manager'
         );
-
+        
         $this->app->bind('file-manager', function () {
             return new FileManagerBase();
         });
-
+        
         $this->app->make(FileManagerController::class);
     }
 }

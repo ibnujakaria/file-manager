@@ -9,20 +9,6 @@ use Illuminate\Support\Facades\Storage;
 class FileManagerController extends Controller
 {
 
-    public function __construct() {
-        $this->middleware(function ($request, $next)
-        {
-            setcookie(
-                'file-manager-base-url',
-                route('ibnujakaria.file-manager.index'),
-                time() + (60 * 5),
-                '/'
-            );
-
-            return $next($request);
-        });
-    }
-
     public function index()
     {
         return view('file-manager::index');
