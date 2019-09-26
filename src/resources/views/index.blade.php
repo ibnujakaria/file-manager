@@ -28,6 +28,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   <script src="{{ asset('file-manager/file-manager.js') }}"></script>
+  
   <script>
     function showFileManager () {
       let fileManager = new FileManager('#file-manager-app')
@@ -37,7 +38,6 @@
     function pickFile () {
       let fileManager = new FileManager()
       fileManager.pickFile().then(file => {
-        console.log("Oke, sudah diterima dari index.blade.php")
         console.log(file.public_path)
       })
     }
@@ -45,7 +45,6 @@
     function pickFiles () {
       let fileManager = new FileManager()
       fileManager.pickFiles().then(files => {
-        console.log("Oke, sudah diterima dari index.blade.php")
         files.forEach(file => {
           console.log(file.public_path)
         });
