@@ -1,3 +1,10 @@
+![](https://img.shields.io/packagist/v/ibnujakaria/file-manager)
+![](https://img.shields.io/packagist/dm/ibnujakaria/file-manager)
+![](https://img.shields.io/packagist/php-v/ibnujakaria/file-manager)
+![](https://img.shields.io/github/issues/ibnujakaria/file-manager)
+![](https://img.shields.io/github/license/ibnujakaria/file-manager)
+![](https://img.shields.io/github/stars/ibnujakaria/file-manager?style=social)
+
 # Instalation
 
 ```bash
