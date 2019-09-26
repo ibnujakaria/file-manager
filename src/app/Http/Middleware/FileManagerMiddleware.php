@@ -4,6 +4,7 @@ namespace Ibnujakaria\FileManager\Http\Middleware;
 
 use Closure;
 use Ibnujakaria\FileManager\Http\Controllers\FileManagerController;
+use InvalidArgumentException;
 
 class FileManagerMiddleware {
 
