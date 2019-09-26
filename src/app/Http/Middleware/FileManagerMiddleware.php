@@ -9,12 +9,16 @@ class FileManagerMiddleware {
 
   public function handle($request, Closure $next)
   {
-    setcookie(
-      'file-manager-base-url',
-      action([FileManagerController::class, 'index']),
-      time() + (60),
-      '/'
-    );
+    try {
+      //code...
+      setcookie(
+        'file-manager-base-url',
+        action([FileManagerController::class, 'index']),
+        time() + (60),
+        '/'
+      );
+    } catch (InvalidArgumentException $exception) {
+    }
 
     return $next($request);
   }
