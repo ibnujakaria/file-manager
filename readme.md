@@ -27,7 +27,7 @@ Route::prefix('admin')->group(function () {
 
 ### Load Assets
 
-```markup
+```html
 <html>
   <!-- bootstrap css -->
   <link rel="stylesheet" href="dist/bootstrap.min.css">
@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function () {
 ```
 
 ### Run File Manager
-```markup
+```html
 <!-- html -->
 <div id="file-manager-app"></div>
 
